@@ -5,9 +5,6 @@ import json
 import pytz
 
 
-
-api_key = os.environ.get("AIRTABLE_API_KEY")
-
 # https://airtable.com/appgA2YK85EpXbOOF/tblKRaKSLb00NhPCp/viwUWHsIHz0XHh5xj?blocks=hide
 
 base_id = "appgA2YK85EpXbOOF"
