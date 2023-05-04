@@ -21,4 +21,6 @@ jobs:
         env
     - name: Run Python script
       run: python main.py
+      env: # Or as an environment variable
+        AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
 
