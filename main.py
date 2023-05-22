@@ -22,7 +22,7 @@ headers = {
 
 
 def create_airtable_column(args):
-    data = get_date(args)
+    data = get_data(args)
     api_url = f"https://api.airtable.com/v0/{args.base_id}/{args.table_name}"
     response = requests.post(api_url, headers=headers, data=json.dumps(data))
 
