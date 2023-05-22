@@ -2,6 +2,9 @@ import requests
 from datetime import datetime
 import os
 import json
+import argparse
+import sys
+
 import pytz
 
 
@@ -9,7 +12,6 @@ import pytz
 
 base_id = "appgA2YK85EpXbOOF"
 table_name = "tblKRaKSLb00NhPCp"
-api_url = f"https://api.airtable.com/v0/{base_id}/{table_name}"
 
 api_key = os.environ.get("AIRTABLE_API_KEY")
 
@@ -18,28 +20,10 @@ headers = {
     "Content-Type": "application/json",
 }
 
-# today_date = (
-#     datetime.now()
-# ).strftime("%Y-%m-%d")
-# as califonia time
 
-today_date = datetime.now(
-    tz=pytz.timezone("America/Los_Angeles")
-).strftime("%Y-%m-%d")
-
-
-data = {
-    "records": [
-        {
-            "fields": {
-                "date": today_date
-            }
-        }
-    ]
-}
-
-
-def create_airtable_column():
+def create_airtable_column(args):
+    data = get_date(args)
+    api_url = f"https://api.airtable.com/v0/{args.base_id}/{args.table_name}"
     response = requests.post(api_url, headers=headers, data=json.dumps(data))
 
     if response.status_code == 200:
@@ -48,5 +32,30 @@ def create_airtable_column():
         print(f"Error: {response.status_code}")
 
 
+def parse_args(args):
+    parser = argparse.ArgumentParser(description="Add new field to airtable as current date in specified format and timezone")
+    parser.add_argument("--format", type=str, default="%Y-%m-%d", help="strftime format")
+    parser.add_argument("--timezone", type=str, default="America/Los_Angeles", help="timezone")
+    # base id and table name
+    parser.add_argument("--base-id", type=str, default=base_id, help="airtable base id")
+    parser.add_argument("--table-name", type=str, default=table_name, help="airtable table name")
+    return parser.parse_args(args)
+
+
+def get_date(args):
+    return datetime.now(
+        tz=pytz.timezone(args.timezone)
+    ).strftime(args.format)
+
+
+def get_data(args):
+    return {
+        "fields": {
+            "date": get_date(args)
+        }
+    }
+
+
 if __name__ == "__main__":
-    create_airtable_column()
+    args = parse_args(sys.argv[1:])
+    create_airtable_column(args)
