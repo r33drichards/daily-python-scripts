@@ -59,3 +59,4 @@ def get_data(args):
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
     create_airtable_column(args)
+if __name__ == "__main__": 
