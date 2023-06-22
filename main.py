@@ -61,3 +61,4 @@ if __name__ == "__main__":
     create_airtable_column(args)
 if __name__ == "__main__": 
     print("Hello")
+    print("Robert is ranting about lucks and regrets.")
