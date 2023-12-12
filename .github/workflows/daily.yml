@@ -4,7 +4,7 @@ on:
   schedule:
     # - cron: '27 0 * * *'
     # this was in utc but want at 12:27am California time
-    - cron: '27 7 * * *'
+    - cron: '27 8 * * *'
   workflow_dispatch:
 
 jobs:
